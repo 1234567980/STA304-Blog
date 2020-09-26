@@ -1,5 +1,5 @@
 ---
-title: "Problem Set #1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto"
+title: "Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto"
 author: "Allison Li"
 date: 2015-07-23T21:13:14-05:00
 bibliography: "references.bib"

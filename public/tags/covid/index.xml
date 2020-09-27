@@ -9,11 +9,20 @@
     <lastBuildDate>Sat, 26 Sep 2020 21:13:14 -0500</lastBuildDate><atom:link href="/tags/covid/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto</title>
-      <link>/posts/toronto_covid_cases/</link>
+      <link>/2020/09/26/problem-set-1-analysis-of-travel-and-medical-policies-on-covid-cases-in-toronto/</link>
       <pubDate>Sat, 26 Sep 2020 21:13:14 -0500</pubDate>
       
+      <guid>/2020/09/26/problem-set-1-analysis-of-travel-and-medical-policies-on-covid-cases-in-toronto/</guid>
+      <description>Abstract Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern. It was met with surprise from the global community, with different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the policies implemented by the Canadian and Ontario government and their effectiveness on the population.</description>
+    </item>
+    
+    <item>
+      <title>Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto</title>
+      <link>/posts/toronto_covid_cases/</link>
+      <pubDate>Thu, 24 Sep 2020 08:47:11 +0100</pubDate>
+      
       <guid>/posts/toronto_covid_cases/</guid>
-      <description>knitr::opts_chunk$set(collapse = TRUE) Abstract Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern. It was met with surprise from the global community, with different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the policies implemented by the Canadian and Ontario government and their effectiveness on the population.</description>
+      <description>Abstract Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern. It was met with surprise from the global community, with different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the policies implemented by the Canadian and Ontario government and their effectiveness on the population.</description>
     </item>
     
   </channel>

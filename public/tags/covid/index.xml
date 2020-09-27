@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Problem Set on Allison&#39;s Blog for STA304</title>
-    <link>/tags/problem-set/</link>
-    <description>Recent content in Problem Set on Allison&#39;s Blog for STA304</description>
+    <title>Covid on Allison&#39;s Blog for STA304</title>
+    <link>/tags/covid/</link>
+    <description>Recent content in Covid on Allison&#39;s Blog for STA304</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 26 Sep 2020 21:13:14 -0500</lastBuildDate><atom:link href="/tags/problem-set/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 Sep 2020 21:13:14 -0500</lastBuildDate><atom:link href="/tags/covid/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto</title>
       <link>/posts/toronto_covid_cases/</link>

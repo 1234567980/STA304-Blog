@@ -1,9 +1,8 @@
 ---
 title: "Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto"
 author: "Allison Li"
-date: 2015-07-23T21:13:14-05:00
+date: 2020-09-27T21:13:14-05:00
 bibliography: "references.bib"
-abstract: "Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern. It was met with surprise from the global community, with different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the policies implemented by the Toronto government and their effectiveness on the population. It is found that.... This means...."
 categories: ["R"]
 tags: ["R Markdown", "plot", "Problem Set","Covid", "Toronto"]
 ---
@@ -34,6 +33,7 @@ In this blog post, we aim to see if Toronto was able to 'flatten the curve' by a
 ```{r head, fig.cap='Table 1.0: Preview of data set.', tidy=FALSE}
 library(opendatatoronto)
 library(dplyr)
+library(ggplot2)
 
 ## get package
 package <- show_package("64b54586-6180-4485-83eb-81e8fae3b8fe")
@@ -73,6 +73,7 @@ ggplot(tidy.data) +
       scale_x_date(date_breaks = "months" , date_labels = "%b")
 ```
 
+
 From the shape of the histogram shown in figure ... we can see that the initial spike grew dramatically in March and peaked mid April. The decrease in cases in April show that the lockdown methods implemented in March were effective at reducing the spread of Covid-19. Moreover, the percentage of close contact cases, which are cases caused by close contact with a confirmed or probable COVID-19 case, had an increased rate of occurrence after March and slowly decreased throughout April to August.
 
 Furthermore, the initial travel bans were effective since the cases caused by travel outside of Ontario increased and were the main source of infection until mid March, which is when various travel bans were implemented. Afterwards the cases caused by travel seem to barely occur throughout the summer.
@@ -84,6 +85,8 @@ ggplot(tidy.data) +
   theme(axis.text.x = element_text(margin = unit(c(-20, 0, 0, 0), "pt"), angle = 70, vjust = 0.5, hjust=1)) + 
       scale_x_date(date_breaks = "months" , date_labels = "%b")
 ```
+
+
 We can see from figure ... that is shown above that fatal cases were most common from April to May, which is when the peak of Covid-19 cases occurred. There are significant amounts of fatal cases before and during the peak in comparison to future dates. The occurrence of fatal cases before the peak could be attributed to the initial lack of information on how to treat Covid-19, as well the time needed for the preparation for hospitals to be able to handle a large sudden influx of severe Covid-19 cases. However, the percentage of fatal cases after May seems to remain relatively small which could suggest that we were more prepared to handle Covid-19 cases as time went on.
 
 # Limitations

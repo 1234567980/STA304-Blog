@@ -1,7 +1,7 @@
 ---
-title: "Problem Set 1 - Analysis of Travel and Medical Policies on Covid Cases in Toronto"
+title: "Analysis of Travel and Medical Policies on Covid Cases in Toronto"
 author: "Allison Li"
-date: 2020-09-24T08:47:11+01:00
+date: 2020-09-26T08:47:11+01:00
 bibliography: "references.bib"
 categories: ["R"]
 tags: ["R Markdown", "plot", "Problem Set","Covid", "Toronto"]
@@ -13,24 +13,28 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 # Abstract
 
-Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern. It was met with surprise from the global community, with different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the policies implemented by the Canadian and Ontario government and their effectiveness on the population. It is found that.... This means....
+Covid-19 emerged suddenly in 2020 and into a society where a global pandemic was not thought to be a high concern, and as a result different countries implementing different measures to handle the new disease that was quickly spreading around the globe. In this blog post, we will explore the  effectiveness of the policies implemented by the Canadian and Ontario government at reducing the impact of Covid-19 by looking at data of cases in Toronto. It was found that cases decreased and the main source of infection changed around the same time travel restrictions and social distancing measures were put into place, and the amount of fatal cases decreased after the peak of cases. This suggests that the implemented policies had a positive impact on the city of Toronto at reducing Covid-19 cases and its fatality.
 
 
 # Introduction
 
 Today's world is a very connected one with modern technology allowing people from many different places to interact and travel freely with much less restrictions than before. Our global economy encouraged not only domestic travel but also frequent international travel. However, this ease of access and lack of restriction on international travel allowed a novel disease that originated in a China to quickly spread around the globe. 
 
-With the sudden emergence of Covid-19, many communities around the globe were forced to put theoretical measures to practice. Across the globe there was a lot of debate about the best method. Some countries implement policies encouraging social distancing to various degrees, such as to the point of completely shutting down borders, and some even had policies with the goal of herd immunity in mind. The time line that these policies were introduced by government bodies also differed as there was much reluctance globally to accept the potential that Covid-19 had to spread internationally.
+With the sudden emergence of Covid-19, many communities around the globe were forced to put theoretical measures to practice with much debate about the best method. 
 
-In this blog post, we are particularly interested in the impact of government policies implemented by the Canadian and Ontario government on the population of the city of Toronto, which is one of the most populated cities in Canada and had a lot of international travel prior. In particular, we want to discover:
+In this blog post, we are particularly interested in the impact of government policies implemented by the Canadian and Ontario government on the population of the city of Toronto, which is one of the most populated cities in Canada and had a lot of international travel prior. As a person living in Toronto, I've been in particular interested in seeing whether the recommendations that we hear about daily are effective at flattening the curve. In particular, we want to discover:
 
   1. Was the rate at which people were infected slowed down? And was it a significant change?
   2. Did main source of infection change as policies regarding travel internationally and domestic were introduced?
   3. Did the medical system in Toronto get better at handling active Covid-19 cases, meaning was the fatality rates decreased as more information about Covid-19 emerged?
 
-In this blog post, we aim to see if Toronto was able to 'flatten the curve' by analyzing a data set of Covid-19 cases in Toronto. This data set contains several pieces of information about severity, date, location, and outcome of each case, which includes all confirmed and probable cases reported to the Toronto Public Health since the first case in January 2020. More specifically, the data features that we are particularly interested in that is contained in this data set are the type of outbreak associate, source of infection, reported date, outcome, and whether the person that was affected ever intubated. These data features are available as columns in our data set, and see \@ref(fig:head) for a table that shows a preview of our data set so we can get a better idea of the structure.
 
-```{r head, fig.cap='Table 1.0: Preview of data set.', tidy=FALSE}
+# Data Set
+
+This data set contains several pieces of information about severity, date, location, and outcome of each case, which includes all confirmed and probable cases reported to the Toronto Public Health since the first case in January 2020. More specifically, the data features that we are particularly interested in that is contained in this data set are the type of outbreak associate, source of infection, reported date, outcome, and whether the person that was affected ever intubated. These data features are available as columns in our data set, and see table 1.0 for a table that shows a preview of our data set so we can get a better idea of the structure.
+
+
+```{r head, fig.cap='Table 1.0: Preview of data set.', tidy=FALSE,  echo=FALSE}
 library(opendatatoronto)
 library(dplyr)
 library(ggplot2)
@@ -50,6 +54,8 @@ tidy.data <- data %>% dplyr::rename_all(list(~make.names(.)))
 tidy.data$Episode.Date <- as.Date(tidy.data$Episode.Date)
 head(tidy.data)
 ```
+Table 1.0: Preview of data set
+
 
 
 From Toronto's data portal website, we know that this data was extracted from the provincial communicable disease reporting system (iPHIS) and Toronto's COVID-19 case management system (CORES). It should be noted that the area covered by this data set does not include the greater Toronto area, but only the city of Toronto since the postal codes in the data only start with M. This dataset was obtained by the city of Toronto's open data portal and can by found through the following link, https://open.toronto.ca/dataset/covid-19-cases-in-toronto/. 
@@ -58,51 +64,73 @@ From Toronto's data portal website, we know that this data was extracted from th
 
 We know that the first Covid-19 case in Canada was found in January 2020, and up to the end of February the borders were still open and local governments weren't enforcing any strict policies. However this changes in March as the situation seems to become increasingly concerning. 
 
-On March 12, schools in Ontario were closed, and will remain closed until September 2020. Moreover, non-essential businesses are ordered to close and a ban was announced on all foreign nationals entering Canada in March. All returning Canadians and international arrivals would be redirected to a few selected airports. Moreover, all non-essential travel across the US and Canada border was restricted. (https://www.canadianhealthcarenetwork.ca/covid-19-a-canadian-timeline)(https://globalnews.ca/news/6859636/ontario-coronavirus-timeline/)
+On March 12, schools in Ontario were closed, and will remain closed until September 2020. Moreover, non-essential businesses are ordered to close and a ban was announced on all foreign nationals entering Canada in March. All returning Canadians and international arrivals would be redirected to a few selected airports. Moreover, all non-essential travel across the US and Canada border was restricted.
 
-Things begin to open up although with strict guidelines in May, and by June 30, the entire province of Ontario enters stage 2 of the Ontario government's recovery plan. Stage 2 allowed the reopening of selected types of businesses such as malls and outdoor dining services. (https://globalnews.ca/news/7066627/coronavirus-more-ontario-regions-entering-stage-2-reopening/)
+Things begin to open up although with strict guidelines in May, and by June 30, the entire province of Ontario enters stage 2 of the Ontario government's recovery plan. Stage 2 allowed the reopening of selected types of businesses such as malls and outdoor dining services. 
 
 # Observations from data
 
 From the data set above, I was able to make a histogram of the amount of Covid-19 cases sorted by the episode date, where the episode date is the best estimation of when the disease was acquired. The shape of the histogram can give us a better look into how many people were infected by Covid-19 a particular day in Toronto. Furthermore, by coloring the cases that occurred on each available date by the source of infection, we are able to get additional insight on what caused the infection. The graph that was created, along with the code, is visible below.
 
-```{r transmission}
+```{r source, fig.cap='Figure 2.0: Histogram of Cases by Date (Coloured by Source of Infection)', echo=FALSE}
 ggplot(tidy.data) +
     geom_bar(aes(x = Episode.Date, fill = Source.of.Infection)) + 
-  theme(axis.text.x = element_text(margin = unit(c(-20, 0, 0, 0), "pt"), angle = 70, vjust = 0.5, hjust=1))+ 
-      scale_x_date(date_breaks = "months" , date_labels = "%b")
+      scale_x_date(date_breaks = "months" , date_labels = "%b") + labs(title="Histogram of cases by episode date (Coloured by source of Infection)",
+        x ="Episode Date", y = "Count")
 ```
 
 
-From the shape of the histogram shown in figure ... we can see that the initial spike grew dramatically in March and peaked mid April. The decrease in cases in April show that the lockdown methods implemented in March were effective at reducing the spread of Covid-19. Moreover, the percentage of close contact cases, which are cases caused by close contact with a confirmed or probable COVID-19 case, had an increased rate of occurrence after March and slowly decreased throughout April to August.
+From the shape of the histogram shown in figure 2.0 we can see that the initial spike grew dramatically in March and peaked mid April. The decrease in cases in April show that the lockdown methods implemented in March were effective at reducing the spread of Covid-19. Moreover, the percentage of close contact cases, which are cases caused by close contact with a confirmed or probable COVID-19 case, had an increased rate of occurrence after March and slowly decreased throughout April to August.
+
+As things begin to open up after the summer, we also see an increase in cases. However, this could also be attributed to fall environment that is said to have more favourable conditions that allow Covid-19 to spread. 
 
 Furthermore, the initial travel bans were effective since the cases caused by travel outside of Ontario increased and were the main source of infection until mid March, which is when various travel bans were implemented. Afterwards the cases caused by travel seem to barely occur throughout the summer.
 
 Similar to what I did above, we can also colour the cases in the histogram by outcome. This can tell us whether we got better at reducing the fatal cases in Toronto, and whether flattening the curve and reducing stress on our medical system was able to reduce fatalities. The graph that was generated with the outcomes in mind is shown below.
-```{r}
+
+```{r outcome, fig.cap='Figure 3.0: Histogram of Cases by Date (Coloured by Outcome)', echo=FALSE}
 ggplot(tidy.data) +
-    geom_bar(aes(x = Episode.Date, fill = Outcome)) + 
-  theme(axis.text.x = element_text(margin = unit(c(-20, 0, 0, 0), "pt"), angle = 70, vjust = 0.5, hjust=1)) + 
-      scale_x_date(date_breaks = "months" , date_labels = "%b")
+    geom_bar(aes(x = Episode.Date, fill = Outcome)) +
+      scale_x_date(date_breaks = "months" , date_labels = "%b")+ labs(title="Histogram of cases by episode date (Coloured by outcome)",
+        x ="Episode Date", y = "Count")
 ```
 
 
-We can see from figure ... that is shown above that fatal cases were most common from April to May, which is when the peak of Covid-19 cases occurred. There are significant amounts of fatal cases before and during the peak in comparison to future dates. The occurrence of fatal cases before the peak could be attributed to the initial lack of information on how to treat Covid-19, as well the time needed for the preparation for hospitals to be able to handle a large sudden influx of severe Covid-19 cases. However, the percentage of fatal cases after May seems to remain relatively small which could suggest that we were more prepared to handle Covid-19 cases as time went on.
+We can see from figure 3.0 that is shown above that fatal cases were most common from April to May, which is when the peak of Covid-19 cases occurred. There are significant amounts of fatal cases before and during the peak in comparison to future dates. The occurrence of fatal cases before the peak could be attributed to the initial lack of information on how to treat Covid-19, as well the time needed for the preparation for hospitals to be able to handle a large sudden influx of severe Covid-19 cases. However, the percentage of fatal cases after May seems to remain relatively small which could suggest that we were more prepared to handle Covid-19 cases as time went on.
 
-# Limitations
+# Limitations and Next Steps
 
-The world was mostly unprepared in the beginning stages of the Covid-19 pandemic, with many underestimating it's ability to spread. As a result, there were many shortages of medical equipment and Covid-19 tests. This was also an issue in Ontario and as a result, doctors had to choose which patients could get a Covid-19 test. These choices usually meant that local transmission was less likely to be caught. Whereas travel cases were most likely to be caught especially during the early stages since doctors were encouraged to test those who had recently traveled abroad
+The world was mostly unprepared in the beginning stages of the Covid-19 pandemic, with many underestimating it's ability to spread. As a result, there were many shortages of medical equipment and Covid-19 tests. The shortage could have had an impact on the initial amounts of cases since they might have not been detected. Moreover, doctors had to choose which patients could get a Covid-19 test, which meant that local transmission was less likely to be caught. Whereas travel cases were most likely to be caught especially during the early stages since it was encouraged to test those who had recently traveled abroad.
 
-# Conclussions and What does this mean?
+Moreover, although normally we would remove N/A results from our data set, a significant portion of our data had unknown or N/A - outbreak associated sources of infection. Removing such significant sections of data could have an impact on our analysis. It is certainly a limitation that a significant section of our data had unknown sources of infection.
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
+Furthermore, we used Toronto data to an estimate of the impacts of Canadian and Ontario government policies. Perhaps the next step could acquiring a larger data set containing cases throughout the province.
 
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+# Conclusions and What does this mean?
+
+Although Covid-19 cases were not completely irradiated, the policies implemented were effective at decreasing the rate at which people were getting infected to the point that the amount of cases were decreasing every month until August. Moreover, discouraging travel was effective at decreasing the amount of travel cases, but placing international traveling restrictions still had the best result. Finally, whether it can be attributed to less patients or more research on Covid-19, it seems that the medical system got better at handling cases as time went on.
+
+From our findings, it seems that the semi-aggressive tactics implemented in Toronto were effective at decreasing the amount of cases and were able to flatten the curve.
+
+# Code
+
+The code that was used to make this post can be found here: https://github.com/1234567980/STA304-Blog/blob/master/content/posts/Toronto_Covid_Cases.rmd
+
+# References
+
+Bronca, Tristan. “COVID-19: A Canadian Timeline.” Canadian Healthcare Network, April 8, 2020. https://www.canadianhealthcarenetwork.ca/covid-19-a-canadian-timeline. 
+
+Nielsen, Kevin. “A Timeline of the Novel Coronavirus in Ontario.” Global News. Global News, July 16, 2020. https://globalnews.ca/news/6859636/ontario-coronavirus-timeline/. 
+
+“Open Data Dataset.” City of Toronto Open Data Portal. Toronto Public Health, September 23, 2020. https://open.toronto.ca/dataset/covid-19-cases-in-toronto/. 
+
+Rocca, Ryan. “More Ontario Regions to Enter Stage 2 of Reopening Friday; Toronto, Peel, Windsor Still Excluded.” Global News. Global News, June 16, 2020. https://globalnews.ca/news/7066627/coronavirus-more-ontario-regions-entering-stage-2-reopening/. 
+
+```{r,  echo=FALSE}
+citation("tidyverse")
+citation("opendatatoronto")
+citation("dplyr")
+citation("ggplot2")
+citation("blogdown")
 ```
+
